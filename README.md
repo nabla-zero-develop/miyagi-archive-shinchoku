@@ -13,11 +13,12 @@ shinchoku/js/jquery.tablesorter.min.js ... Papa Parse v2.1.4
 
 定期実行プログラム
 --------
-### 実行方法
-`mysql -u <ユーザ名> -p<パスワード> < <sqlファイルが存在するディレクトリ>/shinchoku.sql`
-
 ### 定期実行の設定方法
-production_program/shinchoku.sqlを任意のディレクトリにコピーし、cronに上記実行方法を追記する
+1. production_program/shinchoku.sqlを任意のディレクトリにコピー
+2. crontabでエディタ起動  
+`> crontab -e`
+3. 下記を記述する（毎日2時に実行の場合）  
+`0 2 * * * mysql -u <ユーザ名> -p<パスワード> < <sqlファイルが存在するディレクトリ>/shinchoku.sql`
 
 Web設定方法
 --------
