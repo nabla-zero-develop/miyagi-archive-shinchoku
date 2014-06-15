@@ -19,7 +19,7 @@ $joinCondition = "a.holderid=b.id";
 $pdo = new PDO($dsn, $db["user"], $db["password"]);
 
 $stmt = $pdo->prepare(
-    "SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num" .
+    "SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, a.complete_num / a.content_num AS complete_percent" .
     " FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN " . $holderTable . " b ON " . $joinCondition .
     " WHERE a.categoryid=? AND DATE(a.shinchoku_date)=?"
 );
