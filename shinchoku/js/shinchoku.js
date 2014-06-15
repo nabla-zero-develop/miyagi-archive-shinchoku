@@ -72,14 +72,11 @@ $(function () {
 
     $(".tablesorter").tablesorter();
 
-    $("#cvsupload").change(function () {
-        if (!window.FileReader) {
-            // CVS preview function is not supported.
-            return;
-        }
-
-        var reader = new FileReader();
-        reader.onload = previewCvsFile;
-        reader.readAsText($(this).prop('files')[0], "Shift_JIS");
-    });
+    if (window.FileReader) {
+        $("#cvsupload").change(function () {
+            var reader = new FileReader();
+            reader.onload = previewCvsFile;
+            reader.readAsText($(this).prop('files')[0], "Shift_JIS");
+        });
+    }
 });
