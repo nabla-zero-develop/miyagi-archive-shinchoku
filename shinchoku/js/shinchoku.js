@@ -40,7 +40,11 @@ $(function () {
         $("#upload, #cancel").removeClass("gone");
     }
 
-    function previewCvsFile(event) {
+    function goneUploadCancel() {
+        $("#upload, #cancel").addClass("gone");
+    }
+
+    function previewCsvFile(event) {
         var data = $.parse(event.target.result, {header: true});
 
         // TODO: format & error check
@@ -64,7 +68,7 @@ $(function () {
         }
         tbody += "</tbody>";
 
-        $("#cvspreview").empty().append(thead + tbody);
+        $("#csv_preview").empty().append(thead + tbody);
 
         showUploadCancel();
     }
@@ -78,7 +82,9 @@ $(function () {
 
     $(".tablesorter").tablesorter();
 
-    $("#cvsupload").change(function () {
+    $("#csv_upload").change(function () {
+        $("#result").empty();
+
         if (!window.FileReader) {
             // CSV preview is not supported.
             showUploadCancel();
@@ -86,7 +92,21 @@ $(function () {
         }
 
         var reader = new FileReader();
-        reader.onload = previewCvsFile;
+        reader.onload = previewCsvFile;
         reader.readAsText($(this).prop('files')[0], "Shift_JIS");
+    });
+
+    $("#csv_upload").fileupload({
+        url: 'upload/index.php',
+        dataType: 'json',
+        done: function (e, data) {
+            var file = data.result.files[0];
+            goneUploadCancel();
+            if (!file.error) {
+                $("#result").append("アップロードが完了しました: " + file.name);
+            } else {
+                $("#result").append("アップロードに失敗しました: " + file.error);
+            }
+        }
     });
 });

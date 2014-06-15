@@ -11,7 +11,7 @@ shinchoku/js/jquery.ui.datepicker-ja.min.js ... Struts2-jQuery(datepicker“ú–{Œê‰
 shinchoku/js/jquery.tablesorter.min.js ... tablesorter v2.0.5  
 shinchoku/js/jquery.parse.min.js ... Papa Parse v2.1.4  
 shinchoku/js/js/jquery.fileupload.js ... jQuery File Upload v9.5.7  
-shinchoku/js/js/jquery.fileupload-ui.js ... jQuery File Upload v9.5.7  
+shinchoku/js/js/jquery.fileupload-jquery-ui.js ... jQuery File Upload v9.5.7  
 shinchoku/upload ... jQuery File Upload v9.5.7  
 
 ’èŠúÀsƒvƒƒOƒ‰ƒ€

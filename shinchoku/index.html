@@ -10,7 +10,7 @@
 <script src="js/jquery.tablesorter.min.js"></script>
 <script src="js/jquery.parse.min.js"></script>
 <script src="js/jquery.fileupload.js"></script>
-<script src="js/jquery.fileupload-ui.js"></script>
+<script src="js/jquery.fileupload-jquery-ui.js"></script>
 <script src="js/shinchoku.js"></script>
 <meta charset="UTF-8">
 <title>進捗管理システム</title>
@@ -40,12 +40,12 @@
     <div id="digital_team">
         <input type="text" class="datepicker">
         <form>
-            <input type="file" id="cvsupload">
-            <table id="cvspreview"></table>
+            <input type="file" id="csv_upload">
+            <table id="csv_preview"></table>
             <input type="submit" id="upload" class="gone" value="アップロード">
             <input type="submit" id="cancel" class="gone" value="キャンセル">
+            <div id="result"></div>
         </form>
-        <table id="cvspreview"></table>
         <table class="tablesorter">
             <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
             <tbody></tbody>
