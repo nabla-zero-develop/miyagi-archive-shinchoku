@@ -99,13 +99,25 @@ $(function () {
     $("#csv_upload").fileupload({
         url: 'upload/index.php',
         dataType: 'json',
+        add: function (e, data) {
+            $("#upload").off().on("click", function () {
+                goneUploadCancel();
+                $("#result").empty().append("アップロード中・・・");
+                data.submit();
+            });
+            $("#cancel").off().on("click", function () {
+                $("#csv_preview").empty();
+                goneUploadCancel();
+                $("#result").empty();
+            });
+        },
         done: function (e, data) {
             var file = data.result.files[0];
             goneUploadCancel();
             if (!file.error) {
-                $("#result").append("アップロードが完了しました: " + file.name);
+                $("#result").empty().append("アップロードが完了しました: " + file.name);
             } else {
-                $("#result").append("アップロードに失敗しました: " + file.error);
+                $("#result").empty().append("アップロードに失敗しました: " + file.error);
             }
         }
     });
