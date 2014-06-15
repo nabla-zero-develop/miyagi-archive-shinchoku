@@ -12,9 +12,18 @@ if ($categoryid == null || $shinchokuDate == null) {
 
 $dsn = "mysql:host=" . $db["host"] . ";charset=utf8";
 
-// TODO: Category IDに応じて変化させる
-$holderTable = "miyagi_archive_ken.holder";
-$joinCondition = "a.holderid=b.id";
+if ($categoryid == 1) {
+    $holderTable = "miyagi_archive_ken.holder";
+    $joinCondition = "a.holderid=b.id";
+} elseif ($categoryid == 2) {
+    $holderTable = "miyagi_archive_shichouson.holder";
+    $joinCondition = "a.holderid=b.id";
+} elseif ($categoryid == 3) {
+    // TODO: under construction
+    exit();
+} else {
+    exit();
+}
 
 $pdo = new PDO($dsn, $db["user"], $db["password"]);
 
