@@ -10,6 +10,10 @@
  * http://www.opensource.org/licenses/MIT
  */
 
+//PATCH-START
+require_once('../update_database.php');
+//PATCH-END
+
 class UploadHandler
 {
 
@@ -1066,6 +1070,11 @@ class UploadHandler
                 }
             }
             $this->set_additional_file_properties($file);
+//PATCH-START
+            if (($update_error = updateDatabase($file_path)) != null) {
+                $file->error = $this->get_error_message($update_error);
+            }
+//PATCH-END
         }
         return $file;
     }
