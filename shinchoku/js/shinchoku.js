@@ -36,6 +36,10 @@ $(function () {
         );
     }
 
+    function showUploadCancel() {
+        $("#upload, #cancel").removeClass("gone");
+    }
+
     function previewCvsFile(event) {
         var data = $.parse(event.target.result, {header: true});
 
@@ -61,6 +65,8 @@ $(function () {
         tbody += "</tbody>";
 
         $("#cvspreview").empty().append(thead + tbody);
+
+        showUploadCancel();
     }
 
     $(".tabs").tabs();
@@ -72,11 +78,15 @@ $(function () {
 
     $(".tablesorter").tablesorter();
 
-    if (window.FileReader) {
-        $("#cvsupload").change(function () {
-            var reader = new FileReader();
-            reader.onload = previewCvsFile;
-            reader.readAsText($(this).prop('files')[0], "Shift_JIS");
-        });
-    }
+    $("#cvsupload").change(function () {
+        if (!window.FileReader) {
+            // CSV preview is not supported.
+            showUploadCancel();
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = previewCvsFile;
+        reader.readAsText($(this).prop('files')[0], "Shift_JIS");
+    });
 });
