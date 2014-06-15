@@ -11,6 +11,9 @@ if ($categoryid == null || $shinchokuDate == null) {
 }
 
 $dsn = "mysql:host=" . $db["host"] . ";charset=utf8";
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+);
 
 if ($categoryid == 1) {
     $holderTable = "miyagi_archive_ken.holder";
@@ -25,7 +28,7 @@ if ($categoryid == 1) {
     exit();
 }
 
-$pdo = new PDO($dsn, $db["user"], $db["password"]);
+$pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
 $stmt = $pdo->prepare(
     "SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, a.complete_num / a.content_num AS complete_percent" .
@@ -37,7 +40,7 @@ $stmt->execute(array($categoryid, $shinchokuDate));
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-header("Content-type: application/json");
+header("Content-type: application/json; charset=utf-8");
 echo preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {
         return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');
     },
