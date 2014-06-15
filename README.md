@@ -9,6 +9,7 @@ shinchoku/js/jquery-1.11.1.min.js ... jQuery v1.11.1
 shinchoku/js/jquery-ui-1.10.4.custom.min.js ... jQuery UI v1.10.4  
 shinchoku/js/jquery.ui.datepicker-ja.min.js ... Struts2-jQuery(datepicker日本語化用)  
 shinchoku/js/jquery.tablesorter.min.js ... tablesorter v2.0.5  
+shinchoku/js/jquery.tablesorter.min.js ... Papa Parse v2.1.4  
 
 定期実行プログラム
 --------
@@ -29,3 +30,7 @@ Web設定方法
 $db["host"] = "MySQLが動作しているサーバへのURL";  
 $db["user"] = "ユーザ名";  
 $db["password"] = "パスワード";  
+
+制限事項
+--------
+・IE8ではCVSをアップロードするときに内容をプレビューすることはできません

@@ -36,6 +36,33 @@ $(function () {
         );
     }
 
+    function previewCvsFile(event) {
+        var data = $.parse(event.target.result, {header: true});
+
+        // TODO: format & error check
+
+        var fields = data.results.fields;
+        var rows = data.results.rows;
+
+        var thead = "<thead><tr>";
+        for (var i = 0; i < fields.length; i++) {
+            thead += "<th>" + fields[i] + "</th>";
+        }
+        thead += "</tr></thead>";
+
+        var tbody = "<tbody>";
+        for (var i = 0; i < rows.length; i++) {
+            tbody += "<tr>";
+            for (var j = 0; j < fields.length; j++) {
+                tbody += "<td>" + rows[i][fields[j]] + "</td>";
+            }
+            tbody += "</tr>";
+        }
+        tbody += "</tbody>";
+
+        $("#cvspreview").empty().append(thead + tbody);
+    }
+
     $(".tabs").tabs();
 
     $(".datepicker").datepicker({
@@ -44,4 +71,15 @@ $(function () {
     });
 
     $(".tablesorter").tablesorter();
+
+    $("#cvsupload").change(function () {
+        if (!window.FileReader) {
+            // CVS preview function is not supported.
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = previewCvsFile;
+        reader.readAsText($(this).prop('files')[0], "Shift_JIS");
+    });
 });
