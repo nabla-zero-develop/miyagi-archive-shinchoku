@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.min.css" />
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="js/jquery.ui.datepicker-ja.min.js"></script>
 <script src="js/shinchoku.js"></script>
 <meta charset="UTF-8">
 <title>進捗管理システム</title>
@@ -16,9 +17,15 @@
         <li><a href="#municipalities">市町村</a></li>
         <li><a href="#digital_team">デジタル化</a></li>
     </ul>
-    <div id="department">県各部局</div>
-    <div id="municipalities">市町村</div>
-    <div id="digital_team">デジタル化</div>
+    <div id="department">
+        <input type="text" class="datepicker">
+    </div>
+    <div id="municipalities">
+        <input type="text" class="datepicker">
+    </div>
+    <div id="digital_team">
+        <input type="text" class="datepicker">
+    </div>
 </div>
 </body>
 </html>
