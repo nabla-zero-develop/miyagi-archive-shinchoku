@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `daily_shinchoku`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `daily_shinchoku` (
-  `shincyoku_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `shinchoku_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `categoryid` int(11) NOT NULL,
   `holderid` bigint(20) NOT NULL,
   `content_num` bigint(20) NOT NULL,

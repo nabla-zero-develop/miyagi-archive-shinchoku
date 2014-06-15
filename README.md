@@ -10,8 +10,19 @@ shinchoku/js/jquery.ui.datepicker-ja.min.js ... Struts2-jQuery(datepicker“ú–{Œê‰
 
 ’èŠúÀsƒvƒƒOƒ‰ƒ€
 --------
-# Às•û–@
+### Às•û–@
 `mysql -u <ƒ†[ƒU–¼> -p<ƒpƒXƒ[ƒh> < <sqlƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ>/shinchoku.sql`
 
-# ’èŠúÀsİ’è
+### ’èŠúÀs‚Ìİ’è•û–@
 production_program/shinchoku.sql‚ğ”CˆÓ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÉƒRƒs[‚µAcron‚Éã‹LÀs•û–@‚ğ’Ç‹L‚·‚é
+
+Webİ’è•û–@
+--------
+### İ’è•û–@
+1.shinchokuƒtƒHƒ‹ƒ_‚ğŒöŠJêŠ‚ÉƒRƒs[‚·‚é
+2.shinchokuƒtƒHƒ‹ƒ_‚Ì’¼‰º‚É`_config.php`‚Æ‚¢‚¤–¼‘O‚Ìƒtƒ@ƒCƒ‹‚ğì¬‚·‚é
+3.V‹Kì¬‚µ‚½`_config.php`‚É‰º‹L‚Ì“à—e‚ğ‹Lq‚·‚éBŠÂ‹«‚É‡‚í‚¹‚Äİ’è‚·‚éB
+"<?php
+$db["host"] = "MySQL‚ª“®ì‚µ‚Ä‚¢‚éƒT[ƒo‚Ö‚ÌURL";
+$db["user"] = "ƒ†[ƒU–¼";
+$db["password"] = "ƒpƒXƒ[ƒh";"

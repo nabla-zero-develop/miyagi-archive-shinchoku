@@ -1,6 +1,6 @@
 INSERT into miyagi_archive_shinchoku.daily_shinchoku
 SELECT
-	now() AS counting_date,
+	now() AS shinchoku_date,
 	1 AS categoryid,
 	holderid,
 	count(holderid) AS content_num,
@@ -12,7 +12,7 @@ WHERE holderid>=121000
 GROUP BY holderid
 UNION ALL
 SELECT
-	now() AS counting_date,
+	now() AS shinchoku_date,
 	2 AS categoryid,
 	holderid,
 	count(holderid) AS content_num,
