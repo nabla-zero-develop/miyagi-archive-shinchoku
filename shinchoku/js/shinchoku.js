@@ -36,12 +36,10 @@ $(function () {
         );
     }
 
-    function showUploadCancel() {
-        $("#upload, #cancel").removeClass("gone");
-    }
+    function showUploadDialog(table) {
+        $("#csv_preview").empty().append(table);
 
-    function goneUploadCancel() {
-        $("#upload, #cancel").addClass("gone");
+        $("#csv_dialog").dialog("open");
     }
 
     function previewCsvFile(event) {
@@ -68,9 +66,7 @@ $(function () {
         }
         tbody += "</tbody>";
 
-        $("#csv_preview").empty().append(thead + tbody);
-
-        showUploadCancel();
+        showUploadDialog(thead + tbody);
     }
 
     $(".tabs").tabs();
@@ -82,12 +78,10 @@ $(function () {
 
     $(".tablesorter").tablesorter();
 
-    $("#csv_upload").change(function () {
-        $("#result").empty();
-
+    $("#csv_select").change(function () {
         if (!window.FileReader) {
             // CSV preview is not supported.
-            showUploadCancel();
+            showUploadDialog();
             return;
         }
 
@@ -96,28 +90,57 @@ $(function () {
         reader.readAsText($(this).prop('files')[0], "Shift_JIS");
     });
 
-    $("#csv_upload").fileupload({
+    var uploadData = null;
+
+    $("#csv_select").fileupload({
         url: 'upload/index.php',
         dataType: 'json',
         add: function (e, data) {
-            $("#upload").off().on("click", function () {
-                goneUploadCancel();
-                $("#result").empty().append("アップロード中・・・");
-                data.submit();
-            });
-            $("#cancel").off().on("click", function () {
-                $("#csv_preview").empty();
-                goneUploadCancel();
-                $("#result").empty();
-            });
+            uploadData = data;
         },
         done: function (e, data) {
+            $("#uploading").dialog("close");
+
             var file = data.result.files[0];
-            goneUploadCancel();
-            if (!file.error) {
-                $("#result").empty().append("アップロードが完了しました: " + file.name);
-            } else {
-                $("#result").empty().append("アップロードに失敗しました: " + file.error);
+            $("#upload_result").empty().append(
+                !file.error ? "アップロードが完了しました: " + file.name : "アップロードに失敗しました: " + file.error
+            );
+
+            $("#upload_result").dialog("open");
+        }
+    });
+
+    $("#csv_dialog").dialog({
+        autoOpen: false,
+        closeOnEscape: false,
+        modal: true,
+        width: "60%",
+        buttons: {
+            "アップロード": function() {
+                $(this).dialog("close");
+                $("#uploading").dialog("open");
+                uploadData.submit();
+            },
+            "キャンセル": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    $("#uploading").dialog({
+        autoOpen: false,
+        closeOnEscape: false,
+        modal: true,
+        dialogClass: "no-close"
+    });
+
+    $("#upload_result").dialog({
+        autoOpen: false,
+        closeOnEscape: false,
+        modal: true,
+        buttons: {
+            "OK": function() {
+                $(this).dialog("close");
             }
         }
     });
