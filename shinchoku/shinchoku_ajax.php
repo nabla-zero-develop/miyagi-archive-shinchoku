@@ -22,8 +22,8 @@ if ($categoryid == 1) {
     $holderTable = "miyagi_archive_shichouson.holder";
     $joinCondition = "a.holderid=b.id";
 } elseif ($categoryid == 3) {
-    // TODO: under construction
-    exit();
+    $holderTable = "miyagi_archive_shichouson.sikucyoson";
+    $joinCondition = "TRUNCATE(a.holderid/10, 0)=b.code";
 } else {
     exit();
 }
