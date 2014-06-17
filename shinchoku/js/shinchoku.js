@@ -37,7 +37,14 @@ $(function () {
     }
 
     function showUploadDialog(table) {
-        $("#csv_preview").empty().append(table);
+        $("#csv_preview").empty();
+
+        if (!table) {
+            $("#csv_preview_not_support").removeClass();
+        } else {
+            $("#csv_preview_not_support").addClass("gone");
+            $("#csv_preview").append(table);
+        }
 
         $("#csv_dialog").dialog("open");
     }
