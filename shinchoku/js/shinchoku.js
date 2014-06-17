@@ -114,7 +114,7 @@ $(function () {
         autoOpen: false,
         closeOnEscape: false,
         modal: true,
-        width: "60%",
+        width: "auto",
         buttons: {
             "アップロード": function() {
                 $(this).dialog("close");
