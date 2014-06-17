@@ -37,7 +37,10 @@ function updateDatabase($file_path) {
                 }
 
                 $stmt_select->execute(array($row[1], $row[2]));
-                if ($stmt_select->rowCount() == 0) {
+                $notExist = ($stmt_select->rowCount() == 0);
+                $stmt_select->closeCursor();
+
+                if ($notExist) {
                     $stmt_insert->execute($row);
                 } else {
                     $stmt_update->execute(array($row[0], $row[3], $row[4], $row[1], $row[2]));
