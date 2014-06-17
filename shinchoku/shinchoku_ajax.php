@@ -10,6 +10,11 @@ if ($categoryid == null || $shinchokuDate == null) {
     exit();
 }
 
+// NOTE: 12時を過ぎてから進捗を集計するため、そのままの日付で検索すると
+// 1日前の進捗状況を表示することになる。
+// 1日加算することで意図通りの表示ができる
+$shinchokuDate = date('Y-m-d', strtotime($shinchokuDate . " +1 day"));
+
 $dsn = "mysql:host=" . $db["host"] . ";charset=utf8";
 $options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
