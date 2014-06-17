@@ -9,9 +9,8 @@ shinchoku/js/jquery-1.11.1.min.js ... jQuery v1.11.1
 shinchoku/js/jquery-ui-1.10.4.custom.min.js ... jQuery UI v1.10.4  
 shinchoku/js/jquery.ui.datepicker-ja.min.js ... Struts2-jQuery(datepicker日本語化用)  
 shinchoku/js/jquery.tablesorter.min.js ... tablesorter v2.0.5  
-shinchoku/js/jquery.parse.min.js ... Papa Parse v2.1.4  
-shinchoku/js/js/jquery.fileupload.js ... jQuery File Upload v9.5.7  
-shinchoku/js/js/jquery.fileupload-jquery-ui.js ... jQuery File Upload v9.5.7  
+shinchoku/js/parse ... Papa Parse v2.1.4  
+shinchoku/js/fileupload ... jQuery File Upload v9.5.7  
 shinchoku/upload ... jQuery File Upload v9.5.7  
 
 定期実行プログラム
