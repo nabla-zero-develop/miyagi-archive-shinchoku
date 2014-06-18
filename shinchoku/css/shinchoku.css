@@ -7,23 +7,19 @@
 }
 
 #csv_preview {
-    border: 1px black solid;
-    border-collapse: collapse;
-    border-spacing: 0;
+    background-color: #CDCDCD;
+    margin:10px 0pt 15px;
 }
 
 #csv_preview th {
-    padding: 5px;
-    border: black solid;
-    border-width: 0 0 1px 1px;
-    background: black;
-    font-weight: bold;
+    background-color: #e6EEEE;
+    border: 1px solid #FFF;
+    padding: 4px;
     text-align: center;
-    color: white;
 }
 
 #csv_preview td {
-    padding: 5px;
-    border: 1px black solid;
-    border-width: 0 0 1px 1px;
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
 }
