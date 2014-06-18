@@ -1072,6 +1072,7 @@ class UploadHandler
             $this->set_additional_file_properties($file);
 //PATCH-START
             if (($update_error = updateDatabase($file_path)) != null) {
+                unlink($file_path);
                 $file->error = $this->get_error_message($update_error);
             }
 //PATCH-END
