@@ -3,15 +3,24 @@ table.tablesorter {
 	font-family:arial;
 	background-color: #CDCDCD;
 	margin:10px 0pt 15px;
-	font-size: 8pt;
+/* PATCH-START */
+/*	font-size: 8pt; */
+/* PATCH-END */
 	width: 100%;
-	text-align: left;
+/* PATCH-START */
+/*	text-align: left; */
+/* PATCH-END */
 }
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	background-color: #e6EEEE;
 	border: 1px solid #FFF;
-	font-size: 8pt;
+/* PATCH-START */
+/*	font-size: 8pt; */
+/* PATCH-END */
 	padding: 4px;
+/* PATCH-START */
+	text-align: center;
+/* PATCH-END */
 }
 table.tablesorter thead tr .header {
 	background-image: url(bg.gif);
