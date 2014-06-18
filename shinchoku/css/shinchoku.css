@@ -23,3 +23,9 @@
     padding: 4px;
     background-color: #FFF;
 }
+
+#uploading > * {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 4px;
+}
