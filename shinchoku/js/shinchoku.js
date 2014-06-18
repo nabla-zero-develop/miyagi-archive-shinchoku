@@ -49,13 +49,22 @@ $(function () {
         $("#csv_dialog").dialog("open");
     }
 
-    function previewCsvFile(event) {
-        var data = $.parse(event.target.result, {header: true});
+    function showResultDialog(message) {
+        var resultDialog = $("#upload_result");
+        resultDialog.empty().append(message);
+        resultDialog.dialog("open");
+    }
 
-        // TODO: format & error check
+    function previewCsvFile(event) {
+        var data = $.parse(event.target.result, {delimiter: ",", header: true});
 
         var fields = data.results.fields;
         var rows = data.results.rows;
+
+        if (data.errors.length > 0 || fields.length != 5) {
+            showResultDialog("データ書式が間違っています。アップロードできません。");
+            return;
+        }
 
         var thead = "<thead><tr>";
         for (var i = 0; i < fields.length; i++) {
@@ -85,6 +94,12 @@ $(function () {
 
     $(".tablesorter").tablesorter();
 
+    function isCsvExtension(filename) {
+        var ext = filename.split(".");
+        var len = ext.length;
+        return len !== 0 && ext[len - 1].toLowerCase() === "csv";
+    }
+
     $("#csv_select").change(function () {
         if (!window.FileReader) {
             // CSV preview is not supported.
@@ -92,9 +107,16 @@ $(function () {
             return;
         }
 
+        var file = $(this).prop('files')[0];
+
+        if (!isCsvExtension(file.name)) {
+            showResultDialog("CSVファイル以外はアップロードできません。");
+            return;
+        }
+
         var reader = new FileReader();
         reader.onload = previewCsvFile;
-        reader.readAsText($(this).prop('files')[0], "Shift_JIS");
+        reader.readAsText(file, "Shift_JIS");
     });
 
     var uploadData = null;
@@ -103,17 +125,22 @@ $(function () {
         url: 'upload/index.php',
         dataType: 'json',
         add: function (e, data) {
+            // IE8対応: IE8の場合、このイベントまで来ないとファイル名が取得できない
+            if (!window.FileReader && !isCsvExtension(data.files[0].name)) {
+                $("#csv_dialog").dialog("close");
+                showResultDialog("CSVファイル以外はアップロードできません。");
+                return;
+            }
+
             uploadData = data;
         },
         done: function (e, data) {
             $("#uploading").dialog("close");
 
             var file = data.result.files[0];
-            $("#upload_result").empty().append(
+            showResultDialog(
                 !file.error ? "アップロードが完了しました: " + file.name : "アップロードに失敗しました: " + file.error
             );
-
-            $("#upload_result").dialog("open");
         }
     });
 
