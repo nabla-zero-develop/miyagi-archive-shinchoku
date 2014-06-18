@@ -1,0 +1,42 @@
+/*
+ * http://red-team-design.com/cross-browser-css-gradient-buttons/
+ */
+.cross-browser-button {
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #9c9c9c; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+}
+
+.cross-browser-button, 
+.cross-browser-button span {
+    -moz-border-radius: .3em;
+    border-radius: .3em;
+}
+
+.cross-browser-button span {
+    border-top: 1px solid #fff; /* Fallback style */
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+/*    display: block;*/
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    /* The background pattern */
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%, transparent),
+                      linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%, transparent),
+                      linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%),
+                      linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%);
+
+    /* Pattern settings */
+    background-size: 3px 3px;
+}
+
+.cross-browser-button:hover {
+    box-shadow: 0 0 .1em rgba(0,0,0,0.4);
+}
+
+.cross-browser-button:active {
+    /* When pressed, move it down 1px */
+    position: relative;
+    top: 1px;
+}
