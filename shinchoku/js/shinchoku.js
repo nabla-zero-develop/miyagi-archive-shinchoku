@@ -2,6 +2,14 @@ $(function () {
     "use strict";
 
     function updateShinchokuTable(data, table) {
+        var headers = [];
+
+        $.each(table.find("thead > tr > th"), function (key, value) {
+            headers.push("<th>" + value.innerHTML + "</th>");
+        });
+
+        table.find("thead > tr").empty().append(headers.join(""));
+
         var records = [];
 
         $.each(data, function (key, value) {
@@ -18,7 +26,7 @@ $(function () {
 
         table.children("tbody").append(records.join(""));
 
-        table.trigger("update");
+        table.tablesorter();
 
         table.find("+ div + img").addClass("gone");
         if (data.length == 0) {
