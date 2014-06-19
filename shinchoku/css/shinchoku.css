@@ -29,3 +29,15 @@
     vertical-align: middle;
     padding: 4px;
 }
+
+.datepicker {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.shinchoku-area {
+    display: table-cell;
+    vertical-align: top;
+    padding-left: 10px;
+    width: 100%;
+}

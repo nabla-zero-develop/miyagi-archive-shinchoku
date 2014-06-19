@@ -22,12 +22,12 @@ $(function () {
     }
 
     function onSelectDate(date) {
-        var table = $(this).parent().children(".tablesorter");
+        var table = $(this).parent().find(".shinchoku-area > .tablesorter");
 
         $.getJSON(
             "shinchoku_ajax.php",
             {
-                categoryid: {department: 1, municipalities: 2, digital_team: 3}[table.parent().attr("id")],
+                categoryid: {department: 1, municipalities: 2, digital_team: 3}[table.parent().parent().attr("id")],
                 date: date
             },
             function (data) {

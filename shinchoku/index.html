@@ -26,21 +26,24 @@
         <li><a href="#digital_team">デジタル化</a></li>
     </ul>
     <div id="department">
-        <input type="text" class="datepicker">
-        <table class="tablesorter">
-            <thead><tr><th>県部局名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <div class="datepicker"></div>
+        <div class="shinchoku-area">
+            <table class="tablesorter">
+                <thead><tr><th>県部局名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
     <div id="municipalities">
-        <input type="text" class="datepicker">
-        <table class="tablesorter">
-            <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <div class="datepicker"></div>
+        <div class="shinchoku-area">
+            <table class="tablesorter">
+                <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
     <div id="digital_team">
-        <input type="text" class="datepicker">
         <span class="cross-browser-button fileinput-button">
             <span>CSVファイル選択</span>
             <input type="file" id="csv_select">
@@ -51,10 +54,13 @@
         </div>
         <div id="uploading"><div><img src="images/gif-load.gif"></div><div>アップロード中</div></div>
         <div id="upload_result"></div>
-        <table class="tablesorter">
-            <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <div class="datepicker"></div>
+        <div class="shinchoku-area">
+            <table class="tablesorter">
+                <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
