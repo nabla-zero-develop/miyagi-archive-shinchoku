@@ -41,16 +41,18 @@ $(function () {
         table.find("+ div").empty();
         table.find("+ div + img").removeClass("gone");
 
-        $.getJSON(
-            "shinchoku_ajax.php",
-            {
+        $.ajax({
+            url: "shinchoku_ajax.php",
+            cache: false,
+            dataType: "json",
+            data: {
                 categoryid: {department: 1, municipalities: 2, digital_team: 3}[table.parent().parent().attr("id")],
                 date: date
             },
-            function (data) {
+            success: function (data) {
                 updateShinchokuTable(data, table);
             }
-        );
+        });
     }
 
     function showUploadDialog(table) {
