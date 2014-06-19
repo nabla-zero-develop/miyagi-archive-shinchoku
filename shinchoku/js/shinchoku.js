@@ -16,13 +16,22 @@ $(function () {
             records.push(row);
         });
 
-        table.children("tbody").empty().append(records.join(""));
+        table.children("tbody").append(records.join(""));
 
         table.trigger("update");
+
+        table.find("+ div + img").addClass("gone");
+        if (data.length == 0) {
+            table.find("+ div").append("指定された日付の進捗はありません");
+        }
     }
 
     function onSelectDate(date) {
         var table = $(this).parent().find(".shinchoku-area > .tablesorter");
+
+        table.children("tbody").empty();
+        table.find("+ div").empty();
+        table.find("+ div + img").removeClass("gone");
 
         $.getJSON(
             "shinchoku_ajax.php",
