@@ -26,12 +26,14 @@ if (isset($_POST["login"])) {
         $sql = <<< SQL
 SELECT nickname, 1 AS categoryid FROM miyagi_archive_ken.users WHERE username=? AND password=?
 UNION ALL
-SELECT nickname, 2 AS categoryid FROM miyagi_archive_shichouson.users WHERE username=? AND password=?;
+SELECT nickname, 2 AS categoryid FROM miyagi_archive_shichouson.users WHERE username=? AND password=?
+UNION ALL
+SELECT nickname, 3 AS categoryid FROM miyagi_archive_shinchoku.users WHERE username=? AND password=?;
 SQL;
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute(array($_POST["username"], $_POST["password"], $_POST["username"], $_POST["password"]));
+        $stmt->execute(array($_POST["username"], $_POST["password"], $_POST["username"], $_POST["password"], $_POST["username"], $_POST["password"]));
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 

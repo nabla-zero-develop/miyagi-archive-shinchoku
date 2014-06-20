@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `miyagi_archive_shinchoku` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `miyagi_archive_shinchoku` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `miyagi_archive_shinchoku`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
@@ -32,7 +32,7 @@ CREATE TABLE `daily_shinchoku` (
   `copyright_num` bigint(20) NOT NULL,
   `imageright_num` bigint(20) NOT NULL,
   `complete_num` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,26 @@ CREATE TABLE `digital_team_shinchoku` (
   `imageright` int(11) NOT NULL,
   `registration_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(31) NOT NULL,
+  `password` text NOT NULL,
+  `nickname` text NOT NULL,
+  `name` text,
+  `available` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +82,4 @@ CREATE TABLE `digital_team_shinchoku` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-15 14:32:20
+-- Dump completed on 2014-06-21  2:48:34
