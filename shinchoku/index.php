@@ -5,6 +5,10 @@ if (!isset($_SESSION["USERNAME"])) {
     header("Location: login.php");
     exit;
 }
+
+$isShowDepartment = $_SESSION["CATEGORYID"] == 1 || $_SESSION["CATEGORYID"] == 3;
+$isShowMunicipalities = $_SESSION["CATEGORYID"] == 2 || $_SESSION["CATEGORYID"] == 3;
+$isShowDigitalTeam = $_SESSION["CATEGORYID"] == 3;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -33,10 +37,29 @@ if (!isset($_SESSION["USERNAME"])) {
 </div>
 <div class="tabs">
     <ul>
+<?php
+if ($isShowDepartment) {
+?>
         <li><a href="#department">県各部局</a></li>
+<?php
+}
+
+if ($isShowMunicipalities) {
+?>
         <li><a href="#municipalities">市町村</a></li>
+<?php
+}
+
+if ($isShowDigitalTeam) {
+?>
         <li><a href="#digital_team">デジタル化</a></li>
+<?php
+}
+?>
     </ul>
+<?php
+if ($isShowDepartment) {
+?>
     <div id="department">
         <div class="datepicker"></div>
         <div class="shinchoku-area">
@@ -48,6 +71,11 @@ if (!isset($_SESSION["USERNAME"])) {
             <img src="images/gif-load.gif" class="gone">
         </div>
     </div>
+<?php
+}
+
+if ($isShowMunicipalities) {
+?>
     <div id="municipalities">
         <div class="datepicker"></div>
         <div class="shinchoku-area">
@@ -59,6 +87,11 @@ if (!isset($_SESSION["USERNAME"])) {
             <img src="images/gif-load.gif" class="gone">
         </div>
     </div>
+<?php
+}
+
+if ($isShowDigitalTeam) {
+?>
     <div id="digital_team">
         <span class="cross-browser-button fileinput-button">
             <span>CSVファイル選択</span>
@@ -80,6 +113,9 @@ if (!isset($_SESSION["USERNAME"])) {
             <img src="images/gif-load.gif" class="gone">
         </div>
     </div>
+<?php
+}
+?>
 </div>
 </body>
 </html>
