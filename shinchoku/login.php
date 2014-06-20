@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (isset($_SESSION["USERID"])) {
-    header("Location: index.html");
+if (isset($_SESSION["USERNAME"])) {
+    header("Location: index.php");
     exit;
 }
 
@@ -22,20 +22,24 @@ if (isset($_POST["login"])) {
 
         $pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
+        // TODO: Should add miyagi_archive_shinchoku
         $sql = <<< SQL
-SELECT username, nickname, 1 AS categoryid FROM miyagi_archive_ken.users WHERE username=? AND password=?
+SELECT nickname, 1 AS categoryid FROM miyagi_archive_ken.users WHERE username=? AND password=?
 UNION ALL
-SELECT username, nickname, 2 AS categoryid FROM miyagi_archive_shichouson.users WHERE username=? AND password=?;
+SELECT nickname, 2 AS categoryid FROM miyagi_archive_shichouson.users WHERE username=? AND password=?;
 SQL;
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute(array($_POST["userid"], $_POST["password"], $_POST["userid"], $_POST["password"]));
+        $stmt->execute(array($_POST["username"], $_POST["password"], $_POST["username"], $_POST["password"]));
 
-        $result = $stmt->fetch(PDO::FETCH_NUM);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            // TODO: under construction
+            session_regenerate_id(true);
+            $_SESSION["USERNAME"] = $_POST["username"];
+            $_SESSION["NICKNAME"] = $result["nickname"];
+            $_SESSION["CATEGORYID"] = $result["categoryid"];
             header("Location: index.php");
             exit;
         } else {
@@ -46,7 +50,7 @@ SQL;
     }
 }
 
-$viewUserId = htmlspecialchars($_POST["userid"], ENT_QUOTES);
+$viewUserId = htmlspecialchars($_POST["username"], ENT_QUOTES);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -60,7 +64,7 @@ $viewUserId = htmlspecialchars($_POST["userid"], ENT_QUOTES);
     <fieldset>
         <legend>ログインフォーム</legend>
         <div><?php echo $errorMessage ?></div>
-        <label for="userid">ユーザ名</label><input type="text" id="userid" name="userid" value="<?php echo $viewUserId ?>"><br>
+        <label for="username">ユーザ名</label><input type="text" id="username" name="username" value="<?php echo $viewUserId ?>"><br>
         <label for="password">パスワード</label><input type="password" id="password" name="password"><br>
         <input type="submit" id="login" name="login" value="ログイン">
     </fieldset>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["USERID"])) {
+if (!isset($_SESSION["USERNAME"])) {
     header("Location: login.php");
     exit;
 }
