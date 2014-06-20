@@ -23,9 +23,9 @@ if (isset($_POST["login"])) {
         $pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
         $sql = <<< SQL
-SELECT nickname FROM miyagi_archive_ken.users WHERE username=? AND password=?
+SELECT username, nickname, 1 AS categoryid FROM miyagi_archive_ken.users WHERE username=? AND password=?
 UNION ALL
-SELECT nickname FROM miyagi_archive_shichouson.users WHERE username=? AND password=?;
+SELECT username, nickname, 2 AS categoryid FROM miyagi_archive_shichouson.users WHERE username=? AND password=?;
 SQL;
 
         $stmt = $pdo->prepare($sql);
