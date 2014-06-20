@@ -1,7 +1,15 @@
 <?php
-require_once("_config.php");
+session_start();
 
-// TODO: Ajaxからの通信かどうか確認する
+if (!isset($_SESSION["USERNAME"])) {
+    exit();
+}
+
+if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+    exit();
+}
+
+require_once("_config.php");
 
 $categoryid = htmlspecialchars($_GET['categoryid']);
 $shinchokuDate = htmlspecialchars($_GET['date']);

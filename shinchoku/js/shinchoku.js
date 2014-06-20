@@ -1,7 +1,7 @@
 $(function () {
     "use strict";
 
-    function updateShinchokuTable(data, table) {
+    function updateShinchokuTable(data, table, errorMessage) {
         var headers = [];
 
         $.each(table.find("thead > tr > th"), function (key, value) {
@@ -30,7 +30,7 @@ $(function () {
 
         table.find("+ div + img").addClass("gone");
         if (data.length == 0) {
-            table.find("+ div").append("指定された日付の進捗はありません");
+            table.find("+ div").append(errorMessage || "指定された日付の進捗はありません");
         }
     }
 
@@ -51,6 +51,9 @@ $(function () {
             },
             success: function (data) {
                 updateShinchokuTable(data, table);
+            },
+            error: function () {
+                updateShinchokuTable([], table, "データが取得できませんでした。");
             }
         });
     }
