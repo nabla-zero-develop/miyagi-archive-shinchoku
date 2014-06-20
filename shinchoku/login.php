@@ -48,6 +48,8 @@ SQL;
     } catch (Exception $e) {
         $errorMessage = "システムエラーのため、ログインに失敗しました: " . $e->getMessage();
     }
+
+    session_destroy();
 }
 
 $viewUserId = htmlspecialchars($_POST["username"], ENT_QUOTES);

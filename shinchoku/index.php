@@ -26,7 +26,11 @@ if (!isset($_SESSION["USERNAME"])) {
 <title>進捗管理システム</title>
 </head>
 <body>
-<h1>進捗管理システム</h1>
+<div class="top-area">
+    <div data-title>進捗管理システム</div>
+    <div data-userinfo><?php echo $_SESSION["NICKNAME"] ?>でログイン中<br><a href="logout.php">ログアウト</a></div>
+    <div data-clearfix>
+</div>
 <div class="tabs">
     <ul>
         <li><a href="#department">県各部局</a></li>
