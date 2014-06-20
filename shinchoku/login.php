@@ -36,7 +36,7 @@ SQL;
 
         if ($result) {
             // TODO: under construction
-            header("Location: index.html");
+            header("Location: index.php");
             exit;
         } else {
             $errorMessage = "ユーザ名あるいはパスワードに誤りがあります。";
@@ -48,7 +48,6 @@ SQL;
 
 $viewUserId = htmlspecialchars($_POST["userid"], ENT_QUOTES);
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
