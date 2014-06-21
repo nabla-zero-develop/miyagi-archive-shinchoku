@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require_once("common_define.php");
+
 $_SESSION = array();
 
 if (isset($_COOKIE[session_name()])) {
@@ -9,4 +11,4 @@ if (isset($_COOKIE[session_name()])) {
 
 session_destroy();
 
-header("Location: login.php");
+header("Location: " . $ROUTE_MAP["login"]);

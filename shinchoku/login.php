@@ -1,8 +1,10 @@
 <?php
 session_start();
 
+require_once("common_define.php");
+
 if (isset($_SESSION["USERNAME"])) {
-    header("Location: index.php");
+    header("Location: ". $ROUTE_MAP["index"]);
     exit;
 }
 
@@ -10,7 +12,6 @@ $errorMessage = "";
 
 if (isset($_POST["login"])) {
     require("_config.php");
-    require("common_define.php");
 
     try {
         $dsn = "mysql:host=" . $db["host"] . ";charset=utf8";
@@ -43,7 +44,7 @@ SQL;
             $_SESSION["USERNAME"] = $_POST["username"];
             $_SESSION["NICKNAME"] = $result["nickname"];
             $_SESSION["USERTYPE"] = $result["usertype"];
-            header("Location: index.php");
+            header("Location: ". $ROUTE_MAP["index"]);
             exit;
         } else {
             $errorMessage = "ユーザ名あるいはパスワードに誤りがあります。";

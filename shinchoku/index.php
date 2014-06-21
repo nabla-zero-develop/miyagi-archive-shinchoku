@@ -1,12 +1,12 @@
 <?php
 session_start();
 
+require_once("common_define.php");
+
 if (!isset($_SESSION["USERNAME"])) {
-    header("Location: login.php");
+    header("Location: " . $ROUTE_MAP["login"]);
     exit;
 }
-
-require_once("common_define.php");
 
 $isShowDepartment = $_SESSION["USERTYPE"] == USERTYPE_KEN || $_SESSION["USERTYPE"] == USERTYPE_SHINCHOKU;
 $isShowMunicipalities = $_SESSION["USERTYPE"] == USERTYPE_SHICHOUSON || $_SESSION["USERTYPE"] == USERTYPE_SHINCHOKU;
