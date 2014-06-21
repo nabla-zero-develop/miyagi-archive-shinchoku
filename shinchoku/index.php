@@ -6,9 +6,9 @@ if (!isset($_SESSION["USERNAME"])) {
     exit;
 }
 
-$isShowDepartment = $_SESSION["CATEGORYID"] == 1 || $_SESSION["CATEGORYID"] == 3;
-$isShowMunicipalities = $_SESSION["CATEGORYID"] == 2 || $_SESSION["CATEGORYID"] == 3;
-$isShowDigitalTeam = $_SESSION["CATEGORYID"] == 3;
+$isShowDepartment = $_SESSION["USERTYPE"] == 1 || $_SESSION["USERTYPE"] == 3;
+$isShowMunicipalities = $_SESSION["USERTYPE"] == 2 || $_SESSION["USERTYPE"] == 3;
+$isShowDigitalTeam = $_SESSION["USERTYPE"] == 3;
 ?>
 <!DOCTYPE html>
 <html lang="ja">

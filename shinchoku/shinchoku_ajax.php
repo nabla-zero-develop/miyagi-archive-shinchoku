@@ -15,9 +15,9 @@ $categoryid = htmlspecialchars($_GET['categoryid']);
 $shinchokuDate = htmlspecialchars($_GET['date']);
 
 $username = $_SESSION["USERNAME"];
-$userCategoryId = $_SESSION["CATEGORYID"];
+$usertype = $_SESSION["USERTYPE"];
 
-if ($categoryid == null || $shinchokuDate == null || $username == null || $userCategoryId == null) {
+if ($categoryid == null || $shinchokuDate == null || $username == null || $usertype == null) {
     exit();
 }
 
@@ -25,7 +25,7 @@ define("USERTYPE_KEN", 1);
 define("USERTYPE_SHICHOUSON", 2);
 define("USERTYPE_SHINCHOKU", 3);
 
-if ($userCategoryId != USERTYPE_SHINCHOKU && $userCategoryId != $categoryid) {
+if ($usertype != USERTYPE_SHINCHOKU && $usertype != $categoryid) {
     exit();
 }
 
@@ -45,15 +45,15 @@ $today = $dt->format('Y-m-d');
 $pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
 
-if ($userCategoryId == USERTYPE_KEN) {
+if ($usertype == USERTYPE_KEN) {
     $joinUsersTable = "INNER JOIN miyagi_archive_ken.users c ON c.holderid=a.holderid";
     $onlyCurrentUser = "AND c.username=?";
     $additionalParameter = array($username);
-} elseif ($userCategoryId == USERTYPE_SHICHOUSON) {
+} elseif ($usertype == USERTYPE_SHICHOUSON) {
     $joinUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON c.holderid=a.holderid";
     $onlyCurrentUser = "AND c.username=?";
     $additionalParameter = array($username);
-} elseif ($userCategoryId == USERTYPE_SHINCHOKU) {
+} elseif ($usertype == USERTYPE_SHINCHOKU) {
     $joinUsersTable = "";
     $onlyCurrentUser = "";
     $additionalParameter = array();
