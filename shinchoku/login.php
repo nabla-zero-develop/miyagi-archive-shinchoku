@@ -10,6 +10,7 @@ $errorMessage = "";
 
 if (isset($_POST["login"])) {
     require("_config.php");
+    require("common_define.php");
 
     try {
         $dsn = "mysql:host=" . $db["host"] . ";charset=utf8";
@@ -24,11 +25,11 @@ if (isset($_POST["login"])) {
 
         // TODO: Should add miyagi_archive_shinchoku
         $sql = <<< SQL
-SELECT nickname, 1 AS usertype FROM miyagi_archive_ken.users WHERE username=? AND password=?
+SELECT nickname, {$cst(USERTYPE_KEN)} AS usertype FROM miyagi_archive_ken.users WHERE username=? AND password=?
 UNION ALL
-SELECT nickname, 2 AS usertype FROM miyagi_archive_shichouson.users WHERE username=? AND password=?
+SELECT nickname, {$cst(USERTYPE_SHICHOUSON)} AS usertype FROM miyagi_archive_shichouson.users WHERE username=? AND password=?
 UNION ALL
-SELECT nickname, 3 AS usertype FROM miyagi_archive_shinchoku.users WHERE username=? AND password=?;
+SELECT nickname, {$cst(USERTYPE_SHINCHOKU)} AS usertype FROM miyagi_archive_shinchoku.users WHERE username=? AND password=?;
 SQL;
 
         $stmt = $pdo->prepare($sql);

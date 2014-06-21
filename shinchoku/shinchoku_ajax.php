@@ -10,6 +10,7 @@ if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 }
 
 require_once("_config.php");
+require_once("common_define.php");
 
 $categoryid = htmlspecialchars($_GET['categoryid']);
 $shinchokuDate = htmlspecialchars($_GET['date']);
@@ -20,10 +21,6 @@ $usertype = $_SESSION["USERTYPE"];
 if ($categoryid == null || $shinchokuDate == null || $username == null || $usertype == null) {
     exit();
 }
-
-define("USERTYPE_KEN", 1);
-define("USERTYPE_SHICHOUSON", 2);
-define("USERTYPE_SHINCHOKU", 3);
 
 if ($usertype != USERTYPE_SHINCHOKU && $usertype != $categoryid) {
     exit();

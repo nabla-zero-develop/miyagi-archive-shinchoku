@@ -6,9 +6,11 @@ if (!isset($_SESSION["USERNAME"])) {
     exit;
 }
 
-$isShowDepartment = $_SESSION["USERTYPE"] == 1 || $_SESSION["USERTYPE"] == 3;
-$isShowMunicipalities = $_SESSION["USERTYPE"] == 2 || $_SESSION["USERTYPE"] == 3;
-$isShowDigitalTeam = $_SESSION["USERTYPE"] == 3;
+require_once("common_define.php");
+
+$isShowDepartment = $_SESSION["USERTYPE"] == USERTYPE_KEN || $_SESSION["USERTYPE"] == USERTYPE_SHINCHOKU;
+$isShowMunicipalities = $_SESSION["USERTYPE"] == USERTYPE_SHICHOUSON || $_SESSION["USERTYPE"] == USERTYPE_SHINCHOKU;
+$isShowDigitalTeam = $_SESSION["USERTYPE"] == USERTYPE_SHINCHOKU;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
