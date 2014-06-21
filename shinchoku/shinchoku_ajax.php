@@ -44,6 +44,23 @@ $today = $dt->format('Y-m-d');
 
 $pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
+
+if ($userCategoryId == USERTYPE_KEN) {
+    $joinUsersTable = "INNER JOIN miyagi_archive_ken.users c ON c.holderid=a.holderid";
+    $onlyCurrentUser = "AND c.username=?";
+    $additionalParameter = array($username);
+} elseif ($userCategoryId == USERTYPE_SHICHOUSON) {
+    $joinUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON c.holderid=a.holderid";
+    $onlyCurrentUser = "AND c.username=?";
+    $additionalParameter = array($username);
+} elseif ($userCategoryId == USERTYPE_SHINCHOKU) {
+    $joinUsersTable = "";
+    $onlyCurrentUser = "";
+    $additionalParameter = array();
+} else {
+    exit();
+}
+
 if (strtotime($shinchokuDate) != strtotime($today)) {
     if ($categoryid == 1) {
         $holderTable = "miyagi_archive_ken.holder";
@@ -58,56 +75,39 @@ if (strtotime($shinchokuDate) != strtotime($today)) {
         exit();
     }
 
-    if ($userCategoryId == USERTYPE_KEN) {
-        $addUsersTable = "INNER JOIN miyagi_archive_ken.users c ON c.holderid=a.holderid";
-        $onlyCurrentUser = "AND c.username=?";
-        $parameters = array($categoryid, $shinchokuDate, $_SESSION["USERNAME"]);
-    } elseif ($userCategoryId == USERTYPE_SHICHOUSON) {
-        $addUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON c.holderid=a.holderid";
-        $onlyCurrentUser = "AND c.username=?";
-        $parameters = array($categoryid, $shinchokuDate, $_SESSION["USERNAME"]);
-    } elseif ($userCategoryId == USERTYPE_SHINCHOKU) {
-        $addUsersTable = "";
-        $onlyCurrentUser = "";
-        $parameters = array($categoryid, $shinchokuDate);
-    } else {
-        exit();
-    }
-
     $sql = <<< SQL
 SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
-FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN $holderTable b ON $joinCondition $addUsersTable
+FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN $holderTable b ON $joinCondition $joinUsersTable
 WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? $onlyCurrentUser
 SQL;
-    $stmt = $pdo->prepare($sql);
 
-    $stmt->execute($parameters);
+    $baseParameter = array($categoryid, $shinchokuDate);
 } else {
     if ($categoryid == 1) {
         $sql = <<< SQL
 SELECT
 	b.name,
-	COUNT(holderid) AS content_num,
+	COUNT(a.holderid) AS content_num,
 	COUNT(IF(md_copyright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS copyright_num,
 	COUNT(IF(md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS complete_num,
-    TRUNCATE(COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) * 100 / COUNT(holderid), 1) AS complete_percent
-FROM miyagi_archive_ken.content JOIN miyagi_archive_ken.holder b ON holderid=b.id
-WHERE holderid>=121000
-GROUP BY holderid;
+    TRUNCATE(COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) * 100 / COUNT(a.holderid), 1) AS complete_percent
+FROM miyagi_archive_ken.content a JOIN miyagi_archive_ken.holder b ON a.holderid=b.id $joinUsersTable
+WHERE a.holderid>=121000 $onlyCurrentUser
+GROUP BY a.holderid;
 SQL;
     } elseif ($categoryid == 2) {
         $sql = <<< SQL
 SELECT
 	b.name,
-	COUNT(holderid) AS content_num,
+	COUNT(a.holderid) AS content_num,
 	COUNT(IF(md_copyright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS copyright_num,
 	COUNT(IF(md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS complete_num,
-    TRUNCATE(COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) * 100 / COUNT(holderid), 1) AS complete_percent
-FROM miyagi_archive_shichouson.content JOIN miyagi_archive_shichouson.holder b ON holderid=b.id
-WHERE holderid<990
-GROUP BY holderid;
+    TRUNCATE(COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) * 100 / COUNT(a.holderid), 1) AS complete_percent
+FROM miyagi_archive_shichouson.content a JOIN miyagi_archive_shichouson.holder b ON a.holderid=b.id $joinUsersTable
+WHERE a.holderid<990 $onlyCurrentUser
+GROUP BY a.holderid;
 SQL;
     } elseif ($categoryid == 3) {
         $sql = <<< SQL
@@ -118,18 +118,18 @@ SELECT
 	COUNT(IF(imageright!=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) AS complete_num,
     TRUNCATE(COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) * 100 / COUNT(municipality_id), 1) AS complete_percent
-FROM miyagi_archive_shinchoku.digital_team_shinchoku JOIN miyagi_archive_shichouson.sikucyoson b ON TRUNCATE(municipality_id/10, 0)=b.code
+FROM miyagi_archive_shinchoku.digital_team_shinchoku a JOIN miyagi_archive_shichouson.sikucyoson b ON TRUNCATE(municipality_id/10, 0)=b.code
 GROUP BY municipality_id;
 SQL;
     } else {
         exit();
     }
 
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute();
+    $baseParameter = array();
 }
 
+$stmt = $pdo->prepare($sql);
+$stmt->execute(array_merge($baseParameter, $additionalParameter));
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 header("Content-type: application/json; charset=utf-8");
