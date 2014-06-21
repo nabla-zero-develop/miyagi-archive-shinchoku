@@ -61,11 +61,18 @@ $viewUserId = htmlspecialchars($_POST["username"], ENT_QUOTES);
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<link rel="stylesheet" href="css/login.css" />
+<script>
+// IE8ではautofocus属性が使用できないため、JavaScriptでフォーカスをあてる
+window.onload = function () {
+    document.getElementById("username").focus();
+}
+</script>
 <meta charset="UTF-8">
 <title>進捗管理システムログイン</title>
 </head>
 <body>
-<h1>進捗管理システム</h1>
+<div data-title>進捗管理システム</div>
 <form action="<?php print($_SERVER['PHP_SELF']) ?>" method="POST">
     <fieldset>
         <legend>ログインフォーム</legend>

@@ -1,0 +1,16 @@
+div[data-title] {
+    text-align: center;
+    font-size: x-large;
+}
+
+fieldset {
+    text-align: center;
+    font-size: large;
+    line-height: 2.0em;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+fieldset > div {
+    color: red;
+}
