@@ -14,7 +14,18 @@ require_once("_config.php");
 $categoryid = htmlspecialchars($_GET['categoryid']);
 $shinchokuDate = htmlspecialchars($_GET['date']);
 
-if ($categoryid == null || $shinchokuDate == null) {
+$username = $_SESSION["USERNAME"];
+$userCategoryId = $_SESSION["CATEGORYID"];
+
+if ($categoryid == null || $shinchokuDate == null || $username == null || $userCategoryId == null) {
+    exit();
+}
+
+define("USERTYPE_KEN", 1);
+define("USERTYPE_SHICHOUSON", 2);
+define("USERTYPE_SHINCHOKU", 3);
+
+if ($userCategoryId != USERTYPE_SHINCHOKU && $userCategoryId != $categoryid) {
     exit();
 }
 
@@ -47,13 +58,30 @@ if (strtotime($shinchokuDate) != strtotime($today)) {
         exit();
     }
 
-    $stmt = $pdo->prepare(
-        "SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent" .
-        " FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN " . $holderTable . " b ON " . $joinCondition .
-        " WHERE a.categoryid=? AND DATE(a.shinchoku_date)=?"
-    );
+    if ($userCategoryId == USERTYPE_KEN) {
+        $addUsersTable = "INNER JOIN miyagi_archive_ken.users c ON c.holderid=a.holderid";
+        $onlyCurrentUser = "AND c.username=?";
+        $parameters = array($categoryid, $shinchokuDate, $_SESSION["USERNAME"]);
+    } elseif ($userCategoryId == USERTYPE_SHICHOUSON) {
+        $addUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON c.holderid=a.holderid";
+        $onlyCurrentUser = "AND c.username=?";
+        $parameters = array($categoryid, $shinchokuDate, $_SESSION["USERNAME"]);
+    } elseif ($userCategoryId == USERTYPE_SHINCHOKU) {
+        $addUsersTable = "";
+        $onlyCurrentUser = "";
+        $parameters = array($categoryid, $shinchokuDate);
+    } else {
+        exit();
+    }
 
-    $stmt->execute(array($categoryid, $shinchokuDate));
+    $sql = <<< SQL
+SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
+FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN $holderTable b ON $joinCondition $addUsersTable
+WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? $onlyCurrentUser
+SQL;
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute($parameters);
 } else {
     if ($categoryid == 1) {
         $sql = <<< SQL
