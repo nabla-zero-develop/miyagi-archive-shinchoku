@@ -21,7 +21,7 @@ USE `miyagi_archive_shinchoku`;
 -- Table structure for table `daily_shinchoku`
 --
 
-DROP TABLE IF EXISTS `daily_shinchoku`;
+/*DROP TABLE IF EXISTS `daily_shinchoku`;*/
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `daily_shinchoku` (
@@ -39,7 +39,7 @@ CREATE TABLE `daily_shinchoku` (
 -- Table structure for table `digital_team_shinchoku`
 --
 
-DROP TABLE IF EXISTS `digital_team_shinchoku`;
+/*DROP TABLE IF EXISTS `digital_team_shinchoku`;*/
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `digital_team_shinchoku` (
@@ -57,7 +57,7 @@ CREATE TABLE `digital_team_shinchoku` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
+/*DROP TABLE IF EXISTS `users`;*/
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
@@ -70,6 +70,24 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `prefectural_department`
+--
+
+/*DROP TABLE IF EXISTS `prefectural_department`;*/
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prefectural_department` (
+  `code` bigint(20) NOT NULL COMMENT 'コード',
+  `category` varchar(128) DEFAULT NULL COMMENT '分類',
+  `department` varchar(128) DEFAULT NULL COMMENT '部名',
+  `section` varchar(128) DEFAULT NULL COMMENT '課名',
+  `corporate_body` varchar(128) DEFAULT NULL COMMENT '機関名',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='県部局テーブル';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
