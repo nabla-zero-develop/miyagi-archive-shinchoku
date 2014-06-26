@@ -66,7 +66,7 @@ if ($isShowDepartment) {
         <div class="datepicker"></div>
         <div class="shinchoku-area">
             <table class="tablesorter">
-                <thead><tr><th>県部局名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <thead><tr><th>県部局名</th><th>受入件数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
                 <tbody></tbody>
             </table>
             <div>日付を選択してください</div>
@@ -82,7 +82,7 @@ if ($isShowMunicipalities) {
         <div class="datepicker"></div>
         <div class="shinchoku-area">
             <table class="tablesorter">
-                <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <thead><tr><th>市町村名</th><th>受入件数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
                 <tbody></tbody>
             </table>
             <div>日付を選択してください</div>
@@ -108,7 +108,7 @@ if ($isShowDigitalTeam) {
         <div class="datepicker"></div>
         <div class="shinchoku-area">
             <table class="tablesorter">
-                <thead><tr><th>市町村名</th><th>受入総数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
+                <thead><tr><th>県各部局・市町村名</th><th>受入件数</th><th>権利処理済件数</th><th>肖像権処理件数</th><th>公開準備完了件数</th><th>公開準備完了割合</th></tr></thead>
                 <tbody></tbody>
             </table>
             <div>日付を選択してください</div>
