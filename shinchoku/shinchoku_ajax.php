@@ -59,26 +59,53 @@ if ($usertype == USERTYPE_KEN) {
 }
 
 if (strtotime($shinchokuDate) != strtotime($today)) {
-    if ($categoryid == 1) {
-        $holderTable = "miyagi_archive_ken.holder";
-        $joinCondition = "a.holderid=b.id";
-    } elseif ($categoryid == 2) {
-        $holderTable = "miyagi_archive_shichouson.holder";
-        $joinCondition = "a.holderid=b.id";
-    } elseif ($categoryid == 3) {
-        $holderTable = "miyagi_archive_shichouson.sikucyoson";
-        $joinCondition = "TRUNCATE(a.holderid/10, 0)=b.code";
-    } else {
-        exit();
-    }
+    if ($categoryid == 1 || $categoryid == 2) {
+        if ($categoryid == 1) {
+            $holderTable = "miyagi_archive_ken.holder";
+        } elseif ($categoryid == 2) {
+            $holderTable = "miyagi_archive_shichouson.holder";
+        }
 
-    $sql = <<< SQL
-SELECT b.name, a.content_num, a.copyright_num, a.imageright_num, a.complete_num, TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
-FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN $holderTable b ON $joinCondition $joinUsersTable
+        $sql = <<< SQL
+SELECT
+    b.name,
+    a.content_num,
+    a.copyright_num,
+    a.imageright_num,
+    a.complete_num,
+    TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
+FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN $holderTable b ON a.holderid=b.id $joinUsersTable
 WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? $onlyCurrentUser
 SQL;
 
-    $baseParameter = array($categoryid, $shinchokuDate);
+        $baseParameter = array($categoryid, $shinchokuDate);
+    } elseif ($categoryid == 3) {
+        $sql = <<< SQL
+SELECT
+    b.name,
+    a.content_num,
+    a.copyright_num,
+    a.imageright_num,
+    a.complete_num,
+    TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
+FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN miyagi_archive_shichouson.sikucyoson b ON b.code=a.holderid+4000 $joinUsersTable
+WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? AND a.holderid<1000 $onlyCurrentUser
+UNION ALL
+SELECT
+    CONCAT(b.department, b.section, b.corporate_body) AS name,
+    a.content_num,
+    a.copyright_num,
+    a.imageright_num,
+    a.complete_num,
+    TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
+FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN miyagi_archive_shinchoku.prefectural_department b ON b.code=a.holderid $joinUsersTable
+WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? AND a.holderid>=1000 $onlyCurrentUser
+SQL;
+
+        $baseParameter = array($categoryid, $shinchokuDate, $categoryid, $shinchokuDate);
+    } else {
+        exit();
+    }
 } else {
     if ($categoryid == 1) {
         $sql = <<< SQL
