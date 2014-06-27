@@ -19,6 +19,9 @@ function updateDatabase($file_path) {
         $stmt_insert = $pdo->prepare('INSERT INTO digital_team_shinchoku (id, municipality_id, barcode_id, copyright, imageright, registration_date) VALUES (?, ?, ?, ?, ?, now())');
         $stmt_update = $pdo->prepare('UPDATE digital_team_shinchoku SET id=?, copyright=?, imageright=? WHERE municipality_id=? AND barcode_id=?');
 
+        $stmtCheckShikucyoson = $pdo->prepare('SELECT code FROM miyagi_archive_shichouson.sikucyoson WHERE code=?+4000');
+        $stmtCheckPrefecturalDepartment = $pdo->prepare('SELECT code FROM miyagi_archive_shinchoku.prefectural_department WHERE code=?');
+
         $pdo->beginTransaction();
         try {
             $fp = fopen($file_path, 'rb');
@@ -34,6 +37,21 @@ function updateDatabase($file_path) {
                 // {0: id, 1: municipality_id, 2: barcode_id, 3: copyright, 4: imageright}
                 if (count($row) != COLUMN_COUNT) {
                     throw new RuntimeException('Invalid column detected');
+                }
+
+                $municipalityId = $row[1];
+                if ($municipalityId < 1000) {
+                    $stmtCheckShikucyoson->execute(array($municipalityId));
+                    if ($stmtCheckShikucyoson->rowCount() == 0) {
+                        throw new RuntimeException('登録されていないコードが入っています(' . $municipalityId . ')');
+                    }
+                    $stmtCheckShikucyoson->closeCursor();
+                } else {
+                    $stmtCheckPrefecturalDepartment->execute(array($municipalityId));
+                    if ($stmtCheckPrefecturalDepartment->rowCount() == 0) {
+                        throw new RuntimeException('登録されていないコードが入っています(' . $municipalityId . ')');
+                    }
+                    $stmtCheckPrefecturalDepartment->closeCursor();
                 }
 
                 $stmt_select->execute(array($row[1], $row[2]));
