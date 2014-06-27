@@ -43,11 +43,11 @@ $pdo = new PDO($dsn, $db["user"], $db["password"], $options);
 
 
 if ($usertype == USERTYPE_KEN) {
-    $joinUsersTable = "INNER JOIN miyagi_archive_ken.users c ON c.holderid=a.holderid";
+    $joinUsersTable = "INNER JOIN miyagi_archive_ken.users c ON a.holderid=c.holderid";
     $onlyCurrentUser = "AND c.username=?";
     $additionalParameter = array($username);
 } elseif ($usertype == USERTYPE_SHICHOUSON) {
-    $joinUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON c.holderid=a.holderid";
+    $joinUsersTable = "INNER JOIN miyagi_archive_shichouson.users c ON a.holderid=c.holderid";
     $onlyCurrentUser = "AND c.username=?";
     $additionalParameter = array($username);
 } elseif ($usertype == USERTYPE_SHINCHOKU) {
@@ -82,23 +82,23 @@ SQL;
     } elseif ($categoryid == 3) {
         $sql = <<< SQL
 SELECT
-    b.name,
+    IFNULL(b.name, a.holderid) AS name,
     a.content_num,
     a.copyright_num,
     a.imageright_num,
     a.complete_num,
     TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
-FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN miyagi_archive_shichouson.sikucyoson b ON b.code=a.holderid+4000 $joinUsersTable
+FROM miyagi_archive_shinchoku.daily_shinchoku a LEFT JOIN miyagi_archive_shichouson.sikucyoson b ON a.holderid+4000=b.code $joinUsersTable
 WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? AND a.holderid<1000 $onlyCurrentUser
 UNION ALL
 SELECT
-    CONCAT(b.department, b.section, b.corporate_body) AS name,
+    IFNULL(CONCAT(b.department, b.section, b.corporate_body), a.holderid) AS name,
     a.content_num,
     a.copyright_num,
     a.imageright_num,
     a.complete_num,
     TRUNCATE(a.complete_num*100/a.content_num, 1) AS complete_percent
-FROM miyagi_archive_shinchoku.daily_shinchoku a JOIN miyagi_archive_shinchoku.prefectural_department b ON b.code=a.holderid $joinUsersTable
+FROM miyagi_archive_shinchoku.daily_shinchoku a LEFT JOIN miyagi_archive_shinchoku.prefectural_department b ON a.holderid=b.code $joinUsersTable
 WHERE a.categoryid=? AND DATE(a.shinchoku_date)=? AND a.holderid>=1000 $onlyCurrentUser
 SQL;
 
@@ -136,24 +136,24 @@ SQL;
     } elseif ($categoryid == 3) {
         $sql = <<< SQL
 SELECT
-	b.name,
+    IFNULL(b.name, a.municipality_id) AS name,
 	COUNT(municipality_id) AS content_num,
 	COUNT(IF(copyright!=0, 1, NULL)) AS copyright_num,
 	COUNT(IF(imageright!=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) AS complete_num,
     TRUNCATE(COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) * 100 / COUNT(municipality_id), 1) AS complete_percent
-FROM miyagi_archive_shinchoku.digital_team_shinchoku a JOIN miyagi_archive_shichouson.sikucyoson b ON b.code=a.municipality_id+4000
+FROM miyagi_archive_shinchoku.digital_team_shinchoku a LEFT JOIN miyagi_archive_shichouson.sikucyoson b ON a.municipality_id+4000=b.code
 WHERE a.municipality_id<1000
 GROUP BY municipality_id
 UNION ALL
 SELECT
-	CONCAT(b.department, b.section, b.corporate_body) AS name,
+    IFNULL(CONCAT(b.department, b.section, b.corporate_body), a.municipality_id) AS name,
 	COUNT(municipality_id) AS content_num,
 	COUNT(IF(copyright!=0, 1, NULL)) AS copyright_num,
 	COUNT(IF(imageright!=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) AS complete_num,
     TRUNCATE(COUNT(IF(copyright!=0 AND imageright!=0, 1, NULL)) * 100 / COUNT(municipality_id), 1) AS complete_percent
-FROM miyagi_archive_shinchoku.digital_team_shinchoku a JOIN miyagi_archive_shinchoku.prefectural_department b ON b.code=a.municipality_id
+FROM miyagi_archive_shinchoku.digital_team_shinchoku a LEFT JOIN miyagi_archive_shinchoku.prefectural_department b ON a.municipality_id=b.code
 WHERE a.municipality_id>=1000
 GROUP BY municipality_id
 SQL;
