@@ -1,7 +1,7 @@
 <?php
 define("COLUMN_COUNT", "5");
 
-function updateDatabase($file_path) {
+function updateDatabase($file_path, $uncheck_code) {
     require("_config.php");
 
     try {
@@ -39,19 +39,25 @@ function updateDatabase($file_path) {
                     throw new RuntimeException('Invalid column detected');
                 }
 
-                $municipalityId = $row[1];
-                if ($municipalityId < 1000) {
-                    $stmtCheckShikucyoson->execute(array($municipalityId));
-                    if ($stmtCheckShikucyoson->rowCount() == 0) {
-                        throw new RuntimeException('登録されていないコードが入っています(' . $municipalityId . ')');
+                if (!$uncheck_code) {
+                    $municipalityId = $row[1];
+                    if ($municipalityId < 1000) {
+                        $stmtCheckShikucyoson->execute(array($municipalityId));
+                        if ($stmtCheckShikucyoson->rowCount() == 0) {
+                            // エラーメッセージの先頭が '!need_confirm'の場合、
+                            // UploadHandler.php でユーザ確認が必要なものとして処理する
+                            throw new RuntimeException('!need_confirm' . $municipalityId);
+                        }
+                        $stmtCheckShikucyoson->closeCursor();
+                    } else {
+                        $stmtCheckPrefecturalDepartment->execute(array($municipalityId));
+                        if ($stmtCheckPrefecturalDepartment->rowCount() == 0) {
+                            // エラーメッセージの先頭が '!need_confirm'の場合、
+                            // UploadHandler.php でユーザ確認が必要なものとして処理する
+                            throw new RuntimeException('!need_confirm' . $municipalityId);
+                        }
+                        $stmtCheckPrefecturalDepartment->closeCursor();
                     }
-                    $stmtCheckShikucyoson->closeCursor();
-                } else {
-                    $stmtCheckPrefecturalDepartment->execute(array($municipalityId));
-                    if ($stmtCheckPrefecturalDepartment->rowCount() == 0) {
-                        throw new RuntimeException('登録されていないコードが入っています(' . $municipalityId . ')');
-                    }
-                    $stmtCheckPrefecturalDepartment->closeCursor();
                 }
 
                 $stmt_select->execute(array($row[1], $row[2]));

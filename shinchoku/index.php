@@ -100,8 +100,8 @@ if ($isShowDigitalTeam) {
             <input type="file" id="csv_select">
         </span>
         <div id="csv_dialog">
+            <div id="csv_preview_message"></div>
             <table id="csv_preview"></table>
-            <div id="csv_preview_not_support" class="gone">ファイルをアップロードしますか？</div>
         </div>
         <div id="uploading"><div><img src="images/gif-load.gif"></div><div>アップロード中</div></div>
         <div id="upload_result"></div>

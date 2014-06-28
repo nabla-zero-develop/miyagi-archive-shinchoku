@@ -513,6 +513,11 @@ class UploadHandler
 
     protected function handle_form_data($file, $index) {
         // Handle form data, e.g. $_REQUEST['description'][$index]
+//PATCH-START
+        if (isset($_REQUEST['uncheck_code'])) {
+            $file->uncheck_code = $_REQUEST['uncheck_code'];
+        }
+//PATCH-END
     }
 
     protected function get_scaled_image_file_paths($file_name, $version) {
@@ -1076,8 +1081,12 @@ class UploadHandler
             }
             $this->set_additional_file_properties($file);
 //PATCH-START
-            if (($update_error = updateDatabase($file_path)) != null) {
+            if (($update_error = updateDatabase($file_path, $file->uncheck_code)) != null) {
                 unlink($file_path);
+                if (preg_match("/^!need_confirm(.*)/", $update_error, $code)) {
+                    $file->query = 'reupload';
+                    $update_error = $code[1];
+                }
                 $file->error = $this->get_error_message($update_error);
             }
 //PATCH-END

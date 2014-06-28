@@ -60,14 +60,20 @@ $(function () {
 
     function showUploadDialog(table) {
         $("#csv_preview").empty();
+        $("#csv_preview_message").empty();
 
         if (!table) {
-            $("#csv_preview_not_support").removeClass();
+            $("#csv_preview_message").append("ファイルをアップロードしますか？");
         } else {
-            $("#csv_preview_not_support").addClass("gone");
             $("#csv_preview").append(table);
         }
 
+        $("#csv_dialog").dialog("open");
+    }
+
+    function reshowUploadDialog(queryMessage) {
+        uploadData.formData = {uncheck_code: "yes"};
+        $("#csv_preview_message").empty().append(queryMessage);
         $("#csv_dialog").dialog("open");
     }
 
@@ -160,9 +166,13 @@ $(function () {
             $("#uploading").dialog("close");
 
             var file = data.result.files[0];
-            showResultDialog(
-                !file.error ? "アップロードが完了しました: " + file.name : "アップロードに失敗しました: " + file.error
-            );
+            if (!file.error) {
+                showResultDialog("アップロードが完了しました: " + file.name);
+            } else if (!file.query) {
+                showResultDialog("アップロードに失敗しました: " + file.error);
+            } else {
+                reshowUploadDialog('登録されていないコード "' + file.error + '" が入っています。アップロードを続けますか？');
+            }
         }
     });
 
