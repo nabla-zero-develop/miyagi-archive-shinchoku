@@ -1,7 +1,7 @@
 <?php
 // ルーティング
 function createRouteMap() {
-    $scheme = $_SERVER['HTTPS'] ? "https://" : "http://";
+    $scheme = isset($_SERVER['HTTPS']) ? "https://" : "http://";
     $host = $_SERVER["HTTP_HOST"];
     $uri = rtrim(dirname($_SERVER["PHP_SELF"]), "/\\");
 

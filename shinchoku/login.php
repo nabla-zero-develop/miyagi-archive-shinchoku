@@ -56,7 +56,7 @@ SQL;
     session_destroy();
 }
 
-$viewUserId = htmlspecialchars($_POST["username"], ENT_QUOTES);
+$viewUserId = isset($_POST["username"]) ? htmlspecialchars($_POST["username"], ENT_QUOTES) : '';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
