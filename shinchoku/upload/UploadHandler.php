@@ -514,6 +514,7 @@ class UploadHandler
     protected function handle_form_data($file, $index) {
         // Handle form data, e.g. $_REQUEST['description'][$index]
 //PATCH-START
+        $file->uncheck_code = "false";
         if (isset($_REQUEST['uncheck_code'])) {
             $file->uncheck_code = $_REQUEST['uncheck_code'];
         }
