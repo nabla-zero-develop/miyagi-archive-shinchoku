@@ -8,7 +8,7 @@ SELECT
 	COUNT(IF(md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS imageright_num,
 	COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS complete_num
 FROM miyagi_archive_ken.content
-WHERE holderid>=121000
+WHERE holderid>=100002
 GROUP BY holderid
 UNION ALL
 SELECT

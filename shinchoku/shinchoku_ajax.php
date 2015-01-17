@@ -117,7 +117,7 @@ SELECT
 	COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) AS complete_num,
     TRUNCATE(COUNT(IF(md_copyright!=0 AND md_imageright!=0 AND kiso_editflag=0 AND kihon_editflag=0, 1, NULL)) * 100 / COUNT(a.holderid), 1) AS complete_percent
 FROM miyagi_archive_ken.content a JOIN miyagi_archive_ken.holder b ON a.holderid=b.id $joinUsersTable
-WHERE a.holderid>=121000 $onlyCurrentUser
+WHERE a.holderid>=100002 $onlyCurrentUser
 GROUP BY a.holderid
 SQL;
     } elseif ($categoryid == 2) {
